@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Button, Input, Form, Row, Col, Collapse } from "./components/design";
+import {
+  Button,
+  Input,
+  Form,
+  Row,
+  Col,
+  Collapse,
+  Icon
+} from "./components/design";
 import { LineChart } from "react-chartkick";
 
 const Panel = Collapse.Panel;
@@ -12,16 +20,33 @@ const data = [
   { domain: "https://www.reddit.com", status: "syncing" }
 ];
 
+const Header = props => {
+  return (
+    <Row type="flex" justify="space-between" style={{ paddingRight: "1em" }}>
+      <Col>{props.item.domain}</Col>
+      <Col>
+        <Icon
+          type={props.item.status == "syncing" ? "sync" : "check"}
+          spin={props.item.status == "syncing"}
+          style={
+            props.item.status == "syncing"
+              ? { color: "grey" }
+              : { color: "green" }
+          }
+        />
+      </Col>
+    </Row>
+  );
+};
+
 class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Row type="flex" justify="center">
+        <Row type="flex" justify="space-around" style={{ marginTop: "1em" }}>
           <Col>
             <h1>Url Monitor</h1>
           </Col>
-        </Row>
-        <Row type="flex" justify="center">
           <Col>
             <Form layout="inline">
               <Form.Item>
@@ -36,9 +61,9 @@ class App extends Component {
           </Col>
         </Row>
         <Row type="flex" justify="center">
-          <Collapse style={{ width: "50%", marginTop: "1em" }} accordion>
+          <Collapse style={{ width: "75%", marginTop: "1em" }} accordion>
             {data.map((item, index) => (
-              <Panel header={item.domain} key={index}>
+              <Panel header={<Header item={item} />} key={index}>
                 <LineChart data={{ 1: 11, 2: 6 }} />
               </Panel>
             ))}
