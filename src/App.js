@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Input, Form, Row, Col, Collapse } from "./components/design";
+import { LineChart } from "react-chartkick";
 
 const Panel = Collapse.Panel;
 
@@ -38,7 +39,7 @@ class App extends Component {
           <Collapse style={{ width: "50%", marginTop: "1em" }} accordion>
             {data.map((item, index) => (
               <Panel header={item.domain} key={index}>
-                <p>{item.domain}</p>
+                <LineChart data={{ 1: 11, 2: 6 }} />
               </Panel>
             ))}
           </Collapse>
