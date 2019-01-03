@@ -16,16 +16,23 @@ const Panel = Collapse.Panel;
 const Header = props => {
   return (
     <Row type="flex" justify="space-between" style={{ paddingRight: "1em" }}>
-      <Col>{props.item.domain}</Col>
+      <Col>{props.item.url}</Col>
       <Col>
         <Icon
-          type={props.item.status === "syncing" ? "sync" : "check"}
-          spin={props.item.status === "syncing"}
+          type={props.item.sync_status ? "check" : "sync"}
+          spin={!props.item.sync_status}
           style={
-            props.item.status === "syncing"
-              ? { color: "grey" }
-              : { color: "green" }
+            props.item.sync_status ? { color: "green" } : { color: "grey" }
           }
+        />
+        <Button
+          style={{ marginLeft: "1em" }}
+          onClick={() => {
+            UrlStore.deleteData(props.item._id);
+          }}
+          type="danger"
+          shape="circle"
+          icon="delete"
         />
       </Col>
     </Row>
@@ -72,9 +79,9 @@ class App extends Component {
         </Row>
         <Row type="flex" justify="center">
           <Collapse style={{ width: "75%", marginTop: "1em" }} accordion>
-            {UrlStore.data.map((item, index) => (
-              <Panel header={<Header item={item} />} key={index}>
-                <LineChart data={item.data} />
+            {UrlStore.data.map(item => (
+              <Panel header={<Header item={item} />} key={item._id}>
+                <LineChart data={UrlStore.convert(item.responses)} />
               </Panel>
             ))}
           </Collapse>

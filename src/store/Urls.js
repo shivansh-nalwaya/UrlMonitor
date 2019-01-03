@@ -3,46 +3,43 @@ import { extendObservable } from "mobx";
 class Urls {
   constructor() {
     extendObservable(this, {
-      data: [
-        {
-          domain: "https://www.google.com",
-          status: "done",
-          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
-        },
-        {
-          domain: "https://www.facebook.com",
-          status: "done",
-          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
-        },
-        {
-          domain: "https://www.amazon.com",
-          status: "done",
-          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
-        },
-        {
-          domain: "https://www.youtube.com",
-          status: "syncing",
-          data: {}
-        },
-        {
-          domain: "https://www.reddit.com",
-          status: "syncing",
-          data: {}
-        }
-      ]
+      data: []
     });
+    this.getAll();
+  }
+
+  getAll() {
+    fetch("https://url-monitor-app.herokuapp.com/api")
+      .then(res => res.json())
+      .then(res => {
+        this.data = res.data;
+      });
   }
 
   addData(url) {
-    this.data.push({
-      domain: url,
-      status: "syncing",
-      data: {}
+    fetch("https://url-monitor-app.herokuapp.com/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    }).then(() => {
+      this.getAll();
     });
   }
 
-  changeStatus(index) {
-    this.data[index].status = "done";
+  deleteData(id) {
+    fetch(`https://url-monitor-app.herokuapp.com/api/${id}`, {
+      method: "DELETE"
+    }).then(() => {
+      this.getAll();
+    });
+  }
+
+  convert(data) {
+    let res = {};
+    data.map((item, index) => {
+      res[index + 1] = item;
+    });
+    return res;
   }
 }
 
