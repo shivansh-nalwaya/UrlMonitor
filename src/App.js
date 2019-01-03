@@ -81,7 +81,14 @@ class App extends Component {
           <Collapse style={{ width: "75%", marginTop: "1em" }} accordion>
             {UrlStore.data.map(item => (
               <Panel header={<Header item={item} />} key={item._id}>
-                <LineChart data={UrlStore.convert(item.responses)} />
+                <div style={{ marginLeft: "-5%", marginTop: "-3%" }}>
+                  <LineChart
+                    xtitle="Time"
+                    ytitle="Response Time (ms.)"
+                    width="110%"
+                    data={UrlStore.convert(item.responses)}
+                  />
+                </div>
               </Panel>
             ))}
           </Collapse>
