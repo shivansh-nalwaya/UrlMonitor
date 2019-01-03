@@ -15,7 +15,7 @@ const Panel = Collapse.Panel;
 
 const Header = props => {
   return (
-    <Row type="flex" justify="space-between" style={{ paddingRight: "1em" }}>
+    <Row type="flex" justify="space-between" style={{ marginRight: "1em" }}>
       <Col>{props.item.url}</Col>
       <Col>
         <Icon
@@ -50,7 +50,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Row type="flex" justify="space-around" style={{ marginTop: "1em" }}>
+        <Row type="flex" justify="space-around" style={{ paddingTop: "1em" }}>
           <Col>
             <h1>Url Monitor</h1>
           </Col>
