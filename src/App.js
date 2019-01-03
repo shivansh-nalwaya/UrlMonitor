@@ -9,16 +9,9 @@ import {
   Icon
 } from "./components/design";
 import { LineChart } from "react-chartkick";
-
+import UrlStore from "./store/Urls";
+import { observer } from "mobx-react";
 const Panel = Collapse.Panel;
-
-const data = [
-  { domain: "https://www.google.com", status: "done" },
-  { domain: "https://www.facebook.com", status: "done" },
-  { domain: "https://www.amazon.com", status: "done" },
-  { domain: "https://www.youtube.com", status: "syncing" },
-  { domain: "https://www.reddit.com", status: "syncing" }
-];
 
 const Header = props => {
   return (
@@ -26,10 +19,10 @@ const Header = props => {
       <Col>{props.item.domain}</Col>
       <Col>
         <Icon
-          type={props.item.status == "syncing" ? "sync" : "check"}
-          spin={props.item.status == "syncing"}
+          type={props.item.status === "syncing" ? "sync" : "check"}
+          spin={props.item.status === "syncing"}
           style={
-            props.item.status == "syncing"
+            props.item.status === "syncing"
               ? { color: "grey" }
               : { color: "green" }
           }
@@ -40,6 +33,13 @@ const Header = props => {
 };
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      url: ""
+    };
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -50,10 +50,20 @@ class App extends Component {
           <Col>
             <Form layout="inline">
               <Form.Item>
-                <Input placeholder="URL" />
+                <Input
+                  placeholder="URL"
+                  value={this.state.url}
+                  onChange={url => this.setState({ url: url.target.value })}
+                />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    UrlStore.addData(this.state.url);
+                    this.setState({ url: "" });
+                  }}
+                >
                   Add
                 </Button>
               </Form.Item>
@@ -62,7 +72,7 @@ class App extends Component {
         </Row>
         <Row type="flex" justify="center">
           <Collapse style={{ width: "75%", marginTop: "1em" }} accordion>
-            {data.map((item, index) => (
+            {UrlStore.data.map((item, index) => (
               <Panel header={<Header item={item} />} key={index}>
                 <LineChart data={{ 1: 11, 2: 6 }} />
               </Panel>
@@ -74,4 +84,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default observer(App);

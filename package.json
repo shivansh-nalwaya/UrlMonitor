@@ -6,6 +6,8 @@
   "dependencies": {
     "antd": "^3.11.6",
     "gh-pages": "^2.0.1",
+    "mobx": "^5.8.0",
+    "mobx-react": "^5.4.3",
     "react": "^16.7.0",
     "react-chartkick": "^0.3.0",
     "react-dom": "^16.7.0",
