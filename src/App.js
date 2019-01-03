@@ -16,12 +16,6 @@ import { observer } from "mobx-react";
 const Panel = Collapse.Panel;
 const Option = Select.Option;
 
-const selectBefore = (
-  <Select defaultValue="https://">
-    <Option value="https://">https://</Option>
-    <Option value="http://">http://</Option>
-  </Select>
-);
 const Header = props => {
   return (
     <Row type="flex" justify="space-between" style={{ marginRight: "1em" }}>
