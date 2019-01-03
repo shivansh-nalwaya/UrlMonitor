@@ -4,11 +4,31 @@ class Urls {
   constructor() {
     extendObservable(this, {
       data: [
-        { domain: "https://www.google.com", status: "done" },
-        { domain: "https://www.facebook.com", status: "done" },
-        { domain: "https://www.amazon.com", status: "done" },
-        { domain: "https://www.youtube.com", status: "syncing" },
-        { domain: "https://www.reddit.com", status: "syncing" }
+        {
+          domain: "https://www.google.com",
+          status: "done",
+          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
+        },
+        {
+          domain: "https://www.facebook.com",
+          status: "done",
+          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
+        },
+        {
+          domain: "https://www.amazon.com",
+          status: "done",
+          data: { 0: 100, 1: 105, 2: 110, 3: 120, 4: 115 }
+        },
+        {
+          domain: "https://www.youtube.com",
+          status: "syncing",
+          data: {}
+        },
+        {
+          domain: "https://www.reddit.com",
+          status: "syncing",
+          data: {}
+        }
       ]
     });
   }
@@ -16,7 +36,8 @@ class Urls {
   addData(url) {
     this.data.push({
       domain: url,
-      status: "syncing"
+      status: "syncing",
+      data: {}
     });
   }
 
