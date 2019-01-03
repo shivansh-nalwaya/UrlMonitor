@@ -6,13 +6,22 @@ import {
   Row,
   Col,
   Collapse,
-  Icon
+  Icon,
+  Select
 } from "./components/design";
 import { LineChart } from "react-chartkick";
 import UrlStore from "./store/Urls";
 import { observer } from "mobx-react";
-const Panel = Collapse.Panel;
 
+const Panel = Collapse.Panel;
+const Option = Select.Option;
+
+const selectBefore = (
+  <Select defaultValue="https://">
+    <Option value="https://">https://</Option>
+    <Option value="http://">http://</Option>
+  </Select>
+);
 const Header = props => {
   return (
     <Row type="flex" justify="space-between" style={{ marginRight: "1em" }}>
@@ -43,9 +52,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: ""
+      url: "",
+      preUrl: "https://"
     };
   }
+
+  selectBefore = (
+    <Select
+      defaultValue="https://"
+      onChange={preUrl => {
+        this.setState({ preUrl });
+      }}
+    >
+      <Option value="https://">https://</Option>
+      <Option value="http://">http://</Option>
+    </Select>
+  );
 
   render() {
     return (
@@ -59,6 +81,7 @@ class App extends Component {
               <Form.Item>
                 <Input
                   placeholder="URL"
+                  addonBefore={this.selectBefore}
                   value={this.state.url}
                   onChange={url => this.setState({ url: url.target.value })}
                 />
@@ -67,7 +90,7 @@ class App extends Component {
                 <Button
                   type="primary"
                   onClick={() => {
-                    UrlStore.addData(this.state.url);
+                    UrlStore.addData(this.state.preUrl + this.state.url);
                     this.setState({ url: "" });
                   }}
                 >
@@ -77,21 +100,23 @@ class App extends Component {
             </Form>
           </Col>
         </Row>
-        <Row type="flex" justify="center">
-          <Collapse style={{ width: "75%", marginTop: "1em" }} accordion>
-            {UrlStore.data.map(item => (
-              <Panel header={<Header item={item} />} key={item._id}>
-                <div style={{ marginLeft: "-5%", marginTop: "-3%" }}>
-                  <LineChart
-                    xtitle="Time"
-                    ytitle="Response Time (ms.)"
-                    width="110%"
-                    data={UrlStore.convert(item.responses)}
-                  />
-                </div>
-              </Panel>
-            ))}
-          </Collapse>
+        <Row type="flex" justify="center" style={{ marginTop: "1em" }}>
+          <Col lg={22} md={22} sm={24} xs={24}>
+            <Collapse accordion>
+              {UrlStore.data.map(item => (
+                <Panel header={<Header item={item} />} key={item._id}>
+                  <div style={{ marginLeft: "-5%", marginTop: "-3%" }}>
+                    <LineChart
+                      xtitle="Time"
+                      ytitle="Response Time (ms.)"
+                      width="110%"
+                      data={UrlStore.convert(item.responses)}
+                    />
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
+          </Col>
         </Row>
       </React.Fragment>
     );
