@@ -2,7 +2,7 @@
   "name": "url_monitor",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://shivansh-nalwaya.github.io/UrlMonitor",
+  "homepage": "https://shivansh-nalwaya.github.io/UrlMonitor/",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "react": "^16.7.0",
