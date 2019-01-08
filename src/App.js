@@ -7,7 +7,8 @@ import {
   Col,
   Collapse,
   Icon,
-  Select
+  Select,
+  Spin
 } from "./components/design";
 import { LineChart } from "react-chartkick";
 import UrlStore from "./store/Urls";
@@ -96,20 +97,22 @@ class App extends Component {
         </Row>
         <Row type="flex" justify="center" style={{ marginTop: "1em" }}>
           <Col lg={22} md={22} sm={24} xs={24}>
-            <Collapse accordion>
-              {UrlStore.data.map(item => (
-                <Panel header={<Header item={item} />} key={item._id}>
-                  <div style={{ marginLeft: "-5%", marginTop: "-3%" }}>
-                    <LineChart
-                      xtitle="Time"
-                      ytitle="Response Time (ms.)"
-                      width="110%"
-                      data={UrlStore.convert(item.responses)}
-                    />
-                  </div>
-                </Panel>
-              ))}
-            </Collapse>
+            <Spin spinning={UrlStore.isLoading}>
+              <Collapse accordion>
+                {UrlStore.data.map(item => (
+                  <Panel header={<Header item={item} />} key={item._id}>
+                    <div style={{ marginLeft: "-5%", marginTop: "-3%" }}>
+                      <LineChart
+                        xtitle="Time"
+                        ytitle="Response Time (ms.)"
+                        width="110%"
+                        data={UrlStore.convert(item.responses)}
+                      />
+                    </div>
+                  </Panel>
+                ))}
+              </Collapse>
+            </Spin>
           </Col>
         </Row>
       </React.Fragment>

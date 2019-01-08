@@ -3,7 +3,8 @@ import { extendObservable } from "mobx";
 class Urls {
   constructor() {
     extendObservable(this, {
-      data: []
+      data: [],
+      isLoading: true
     });
     this.getAll();
   }
@@ -13,6 +14,7 @@ class Urls {
       .then(res => res.json())
       .then(res => {
         this.data = res.data;
+        this.isLoading = false;
       });
   }
 
