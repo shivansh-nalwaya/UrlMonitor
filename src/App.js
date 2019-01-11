@@ -16,6 +16,7 @@ import { observer } from "mobx-react";
 
 const Panel = Collapse.Panel;
 const Option = Select.Option;
+const Search = Input.Search;
 
 const Header = props => {
   return (
@@ -74,23 +75,17 @@ class App extends Component {
           <Col>
             <Form layout="inline">
               <Form.Item>
-                <Input
+                <Search
                   placeholder="URL"
                   addonBefore={this.selectBefore}
                   value={this.state.url}
-                  onChange={url => this.setState({ url: url.target.value })}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  onClick={() => {
+                  enterButton="Add"
+                  onChange={e => this.setState({ url: e.target.value })}
+                  onSearch={() => {
                     UrlStore.addData(this.state.preUrl + this.state.url);
                     this.setState({ url: "" });
                   }}
-                >
-                  Add
-                </Button>
+                />
               </Form.Item>
             </Form>
           </Col>
